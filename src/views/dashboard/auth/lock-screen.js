@@ -23,7 +23,7 @@ const LockScreen = () => {
                               <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                               <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                            </svg>
-                           <h4 className="logo-title ms-3">Hope UI</h4>
+                           <h4 className="logo-title ms-3">Exam Tech</h4>
                         </Link>
                         <Image src={avatars1} className="rounded avatar-80 mb-3" alt="" />
                         <h2 className="mb-2">Hi ! Ruben Dokidis</h2>

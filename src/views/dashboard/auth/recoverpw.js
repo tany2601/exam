@@ -26,7 +26,7 @@ const Recoverpw = () => {
                               <rect x="10.5366" y="16.3945" width="16" height="4" rx="2" transform="rotate(45 10.5366 16.3945)" fill="currentColor" />
                               <rect x="10.5562" y="-0.556152" width="28" height="4" rx="2" transform="rotate(45 10.5562 -0.556152)" fill="currentColor" />
                            </svg>
-                           <h4 className="logo-title ms-3">Hope UI</h4>
+                           <h4 className="logo-title ms-3">Exam Tech</h4>
                         </Link>
                         <h2 className="mb-2">Reset Password</h2>
                         <p>Enter your email address and we'll send you an email with instructions to reset your password.</p>

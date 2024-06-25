@@ -8,10 +8,12 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import {Row,Col,Form,Button} from 'react-bootstrap'
+import Card from '../Card'
 
 // import { Paper } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 
 import { ToastContainer, toast, Slide  } from 'react-toastify';
@@ -635,6 +637,44 @@ const UploadQuestions = () => {
             setSelectedExamId={setSelectedExamId}
           /> */}
           <div >
+
+          <Row>
+                    <Col sm="12" lg="6">
+                        <Card>
+                            <Card.Header className="d-flex justify-content-between">
+                                <div className="header-title">
+                                    <h4 className="card-title">Basic Form</h4>
+                                </div>
+                            </Card.Header>
+                            <Card.Body>
+                            <Form>
+                                    <Form.Group className="form-group">
+                                        <Form.Label htmlFor="email">Email address:</Form.Label>
+                                        <Form.Control type="email"  id="email1"/>
+                                    </Form.Group>
+                                    <Form.Group className="form-group">
+                                        <Form.Label htmlFor="pwd">Password:</Form.Label>
+                                        <Form.Control type="password"  id="pwd"/>
+                                    </Form.Group>
+                                    <div className="checkbox mb-3">
+                                        <Form.Check className="form-check ">
+                                            <Form.Check.Input  type="checkbox" defaultValue="" id="flexCheckDefault3"/>
+                                            <Form.Check.Label  htmlFor="flexCheckDefault3">
+                                                Remember me
+                                            </Form.Check.Label>
+                                        </Form.Check>
+                                    </div>
+                                    <Button type="button" variant="btn btn-primary">Submit</Button>{' '}
+                                    <Button type="button" variant="btn btn-danger">cancel</Button>
+                                </Form>
+                            </Card.Body>
+                        </Card>
+                        </Col>
+                        </Row>
+            
+
+
+
             <div className='selectFilterContainer' >
               <h5 className='selectHeading'>Pre Question Text:</h5>
               <textarea

@@ -200,7 +200,7 @@ const VerticalNav = memo((props) => {
                         </ul>
                     </Accordion.Collapse>
                 </Accordion.Item>
-                <Accordion.Item as="li" eventKey="sidebar-user" bsPrefix={`nav-item ${active === 'user' ? 'active' : ''} `} onClick={() => setActive('user')}>
+                {/* <Accordion.Item as="li" eventKey="sidebar-user" bsPrefix={`nav-item ${active === 'user' ? 'active' : ''} `} onClick={() => setActive('user')}>
                     <CustomToggle eventKey="sidebar-user" onClick={(activeKey) => setActiveMenu(activeKey)}>
                         <i className="icon">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +262,7 @@ const VerticalNav = memo((props) => {
                             </li>
                         </ul>
                     </Accordion.Collapse>
-                </Accordion.Item>
+                </Accordion.Item> */}
                 <Accordion.Item as="li" eventKey="utilities-error" bsPrefix={`nav-item ${active === 'error' ? 'active' : ''} `} onClick={() => setActive('error')}>
                     <CustomToggle eventKey="utilities-error" active={activeMenu === 'utilities-error' ? true : false} onClick={(activeKey) => setActiveMenu(activeKey)}>
                         <i className="icon">
@@ -319,7 +319,7 @@ const VerticalNav = memo((props) => {
                         </ul>
                     </Accordion.Collapse>
                 </Accordion.Item>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                 <Link className={`${location.pathname === '/dashboard/admin/admin' ? 'active' : ''} nav-link`} to="/dashboard/admin/admin">
                         <i className="icon">
                             <svg width="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -329,7 +329,7 @@ const VerticalNav = memo((props) => {
                         </i>
                         <span className="item-name">Admin</span>
                     </Link>
-                </li>
+                </li> */}
                 <li><hr className="hr-horizontal"/></li>
                 <li className="nav-item static-item">
                     <Link className="nav-link static-item disabled" to="#" tabIndex="-1">

@@ -319,7 +319,7 @@ const Index = memo((props) => {
                         </svg>
                       </Circularprogressbar>
                       <div className="progress-detail">
-                        <p className="mb-2">Total Sales</p>
+                        <p className="mb-2">Today's Uploads</p>
                         <h4 className="counter">
                           $<CountUp start={120} end={560} duration={3} />K
                         </h4>
@@ -354,7 +354,7 @@ const Index = memo((props) => {
                         </svg>
                       </Circularprogressbar>
                       <div className="progress-detail">
-                        <p className="mb-2">Total Profit</p>
+                        <p className="mb-2">Total Uploads</p>
                         <h4 className="counter">
                           $<CountUp start={20} end={158} duration={3} />K
                         </h4>
@@ -384,7 +384,7 @@ const Index = memo((props) => {
                         </svg>
                       </Circularprogressbar>
                       <div className="progress-detail">
-                        <p className="mb-2">Total Cost</p>
+                        <p className="mb-2">Todays's Earnings</p>
                         <h4 className="counter">
                           $<CountUp start={120} end={378} duration={3} />K
                         </h4>
@@ -419,7 +419,7 @@ const Index = memo((props) => {
                         </svg>
                       </Circularprogressbar>
                       <div className="progress-detail">
-                        <p className="mb-2">Revenue</p>
+                        <p className="mb-2">Total Earnings</p>
                         <h4 className="counter">
                           $<CountUp start={212} end={742} duration={3} />K
                         </h4>
@@ -743,7 +743,7 @@ const Index = memo((props) => {
               >
                 <div className="flex-wrap card-header d-flex justify-content-between">
                   <div className="header-title">
-                    <h4 className="mb-2 card-title">Enterprise Clients</h4>
+                    <h4 className="mb-2 card-title">Question Count</h4>
                     <p className="mb-0">
                       <svg
                         className="me-2"
@@ -761,7 +761,9 @@ const Index = memo((props) => {
                   </div>
                 </div>
                 <div className="p-0 card-body">
+                  
                   <div className="mt-4 table-responsive">
+                    
                     <table
                       id="basic-table"
                       className="table mb-0 table-striped"
@@ -769,7 +771,7 @@ const Index = memo((props) => {
                     >
                       <thead>
                         <tr>
-                          <th>COMPANIES</th>
+                          <th>TASKS</th>
                           <th></th>
                           <th></th>
                           <th>COMPLETION</th>
@@ -784,7 +786,7 @@ const Index = memo((props) => {
                                 src={shapes1}
                                 alt="profile"
                               />
-                              <h6>Addidis Sportwear</h6>
+                              <h6>Yesterday</h6>
                             </div>
                           </td>
                           <td>
@@ -814,7 +816,7 @@ const Index = memo((props) => {
                                 src={shapes5}
                                 alt="profile"
                               />
-                              <h6>Netflixer Platforms</h6>
+                              <h6>Last 7 Days</h6>
                             </div>
                           </td>
                           <td>
@@ -844,7 +846,7 @@ const Index = memo((props) => {
                                 src={shapes2}
                                 alt="profile"
                               />
-                              <h6>Shopifi Stores</h6>
+                              <h6>This Month</h6>
                             </div>
                           </td>
                           <td>
@@ -874,7 +876,7 @@ const Index = memo((props) => {
                                 src={shapes3}
                                 alt="profile"
                               />
-                              <h6>Bootstrap Technologies</h6>
+                              <h6>Last 30 Days</h6>
                             </div>
                           </td>
                           <td>
@@ -904,7 +906,7 @@ const Index = memo((props) => {
                                 src={shapes4}
                                 alt="profile"
                               />
-                              <h6>Community First</h6>
+                              <h6>Previous Month</h6>
                             </div>
                           </td>
                           <td>
@@ -926,6 +928,100 @@ const Index = memo((props) => {
                             />
                           </td>
                         </tr>
+
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <img
+                                className="rounded bg-soft-primary img-fluid avatar-40 me-3"
+                                src={shapes4}
+                                alt="profile"
+                              />
+                              <h6>Pending</h6>
+                            </div>
+                          </td>
+                          <td>
+                           
+                          </td>
+                          <td></td>
+                          <td>
+                            <div className="mb-2 d-flex align-items-center">
+                              <h6>50</h6>
+                            </div>
+                            <Progress
+                              softcolors="primary"
+                              color="primary"
+                              className="shadow-none w-100"
+                              value={50}
+                              minvalue={0}
+                              maxvalue={100}
+                              style={{ height: "4px" }}
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <img
+                                className="rounded bg-soft-primary img-fluid avatar-40 me-3"
+                                src={shapes4}
+                                alt="profile"
+                              />
+                              <h6>Reviewed</h6>
+                            </div>
+                          </td>
+                          <td>
+                           
+                          </td>
+                          <td></td>
+                          <td>
+                            <div className="mb-2 d-flex align-items-center">
+                              <h6>55</h6>
+                            </div>
+                            <Progress
+                              softcolors="primary"
+                              color="primary"
+                              className="shadow-none w-100"
+                              value={55}
+                              minvalue={0}
+                              maxvalue={100}
+                              style={{ height: "4px" }}
+                            />
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <img
+                                className="rounded bg-soft-primary img-fluid avatar-40 me-3"
+                                src={shapes4}
+                                alt="profile"
+                              />
+                              <h6>Incorrect</h6>
+                            </div>
+                          </td>
+                          <td>
+                           
+                          </td>
+                          <td></td>
+                          <td>
+                            <div className="mb-2 d-flex align-items-center">
+                              <h6>7</h6>
+                            </div>
+                            <Progress
+                              softcolors="primary"
+                              color="primary"
+                              className="shadow-none w-100"
+                              value={7}
+                              minvalue={0}
+                              maxvalue={100}
+                              style={{ height: "4px" }}
+                            />
+                          </td>
+                        </tr>
+
                       </tbody>
                     </table>
                   </div>

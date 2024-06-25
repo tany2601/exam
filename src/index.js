@@ -10,15 +10,15 @@ import { Provider } from "react-redux";
 //reducer
 import { store } from "./store";
 
-import Index from "./views/index";
 import { IndexRouters } from "./router";
 import { SimpleRouter } from "./router/simple-router";
 import { DefaultRouter } from "./router/default-router";
+import Login from "./Login/login";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index />,
+    element: <Login />,
   },
   ...DefaultRouter,
   ...IndexRouters,

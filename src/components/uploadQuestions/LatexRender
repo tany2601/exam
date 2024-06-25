@@ -1,0 +1,30 @@
+import React, { useEffect } from 'react';
+// import './Component.css'
+
+const LatexRender = ({ content }) => {
+  const formattedContent = Array.isArray(content) ? content.join('\n') : content;
+
+  useEffect(() => {
+    if (formattedContent && window.MathJax) {
+      window.MathJax.typesetPromise().catch((err) => {
+        console.error('Error while typesetting:', err);
+      });
+    }
+  }, [formattedContent]);
+
+  const containsLatex = (text) => {
+    return /\$.*?\$|\\begin\{(.*?)\}(.*?)\\end\{\1\}/s.test(text); // Updated regex to match \\begin and \\end tags
+  };
+
+  const renderContent = (text) => {
+    if (containsLatex(text)) {
+      return <p className="mathjax-rendered" dangerouslySetInnerHTML={{ __html: text.replace(/!/g, '') }} style={{ textAlign: 'center', margin: '1em 0' }} />;
+    }
+    return <p>{text}</p>;
+  };
+
+  // return <div className="latex-render">{renderContent(formattedContent.replace(/!/g, ''))}</div>;
+  return <div className="latex-render">{renderContent(formattedContent)}</div>;
+};
+
+export default LatexRender;

@@ -1,5 +1,6 @@
 import React from 'react'
 import Index from '../views/dashboard/index'
+import UploadQuestions from '../components/uploadQuestions/uploadQuestions';
 // import { Switch, Route } from 'react-router-dom'
 // user
 import UserProfile from '../views/dashboard/app/user-profile';
@@ -53,6 +54,10 @@ export const DefaultRouter = [
             {
                 path: 'dashboard',
                 element: <Index />
+            },
+            {
+                path: 'uploadQuestions',
+                element: <UploadQuestions />
             },
             {
                 path: 'dashboard/special-pages/billing',

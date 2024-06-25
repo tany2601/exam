@@ -46,7 +46,7 @@
 //                         <Navbar.Brand as="div" className="col-lg-2 col-lg-3 ">
 //                             <Link to="/dashboard" className="d-flex">
 //                                 <Logo color={true} />
-//                                 <h4 className="logo-title">Hope UI</h4>
+//                                 <h4 className="logo-title">Exam Tech</h4>
 //                             </Link>
 //                         </Navbar.Brand>
 //                         <HorizontalNav />

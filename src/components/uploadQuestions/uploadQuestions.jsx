@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import './App.css';
+// import QuestionSelectionPage from './QuestionSelectionPage';
 import QuestionSelectionPage from './QuestionSelectionPage';
 import ShowQuestionInModal from './showQuestionInModal';
 import { useNavigate } from 'react-router-dom';
@@ -629,13 +630,13 @@ const UploadQuestions = () => {
         )}
         {/* {<QuestionSelectionPage />} */}
         
-          {/* <QuestionSelectionPage
+          <QuestionSelectionPage
             setSelectedYearId={setSelectedYearId}
             setSelectedSubjectId={setSelectedSubjectId}
             setSelectedChapterId={setSelectedChapterId}
             setSelectedTopicId={setSelectedTopicId}
             setSelectedExamId={setSelectedExamId}
-          /> */}
+          />
           <div >
 
           <Row>

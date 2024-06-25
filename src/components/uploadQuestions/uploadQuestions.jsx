@@ -9,7 +9,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import {Row,Col,Form,Button} from 'react-bootstrap'
+import { Row, Col, Form, Button } from 'react-bootstrap'
 import Card from '../Card'
 
 // import { Paper } from '@mui/material';
@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 // import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 
-import { ToastContainer, toast, Slide  } from 'react-toastify';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
 const baseUrl = `${process.env.REACT_APP_API_PROTOCOL}://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
 
@@ -374,7 +374,7 @@ const UploadQuestions = () => {
     const newPopovers = [...popovers];
     newPopovers[i] = false; // Close the popover for the clicked button
     setPopovers(newPopovers);
-    
+
     const fileInput = document.getElementById(`fileInput${i}`);
     if (fileInput) fileInput.value = '';
   };
@@ -414,27 +414,27 @@ const UploadQuestions = () => {
   const [option, setOption] = useState("");
 
   const saveImage = (option) => {
-    if (!croppedImage ||!canvasRef.current) return;
-  
-    setOption(option);  
+    if (!croppedImage || !canvasRef.current) return;
+
+    setOption(option);
     // Get the cropped image data from the canvas
     const imageData = canvasRef.current.toDataURL();
-  
+
     // Set the cropped image data to state
     setSavedImageData(imageData);
   };
-  
+
   useEffect(() => {
     if (savedImageData) {
       axios
-       .post(`${baseUrl}${endpointsave}`, { savedImageData })
-       .then((response) => {
+        .post(`${baseUrl}${endpointsave}`, { savedImageData })
+        .then((response) => {
           console.log(response.data.fileName); // Log the response from the backend
           // Handle success, if needed
           toast.success('Image Uploaded Successfully')
           return response.data.fileName;
         })
-       .then((data) => {
+        .then((data) => {
           // Update state with the response for the respective option
           switch (option) {
             case "quesImg":
@@ -466,14 +466,14 @@ const UploadQuestions = () => {
               console.log("EXP IMG URL", data);
               setExplanationImageUrl(data);
               handleClose(5);
-  
+
               break;
-  
+
             default:
               break;
           }
         })
-       .catch((error) => {
+        .catch((error) => {
           console.error("Error saving image:", error);
           // Handle error, if needed
         });
@@ -625,58 +625,323 @@ const UploadQuestions = () => {
           <ShowQuestionInModal
             questionData={modalQuestionData}
             handleClose={handleCloseModal}
-            // handleClose={() => setShowQuestionModal(false)}
+          // handleClose={() => setShowQuestionModal(false)}
           />
         )}
         {/* {<QuestionSelectionPage />} */}
-        
-          <QuestionSelectionPage
-            setSelectedYearId={setSelectedYearId}
-            setSelectedSubjectId={setSelectedSubjectId}
-            setSelectedChapterId={setSelectedChapterId}
-            setSelectedTopicId={setSelectedTopicId}
-            setSelectedExamId={setSelectedExamId}
-          />
-          <div >
+
+        <QuestionSelectionPage
+          setSelectedYearId={setSelectedYearId}
+          setSelectedSubjectId={setSelectedSubjectId}
+          setSelectedChapterId={setSelectedChapterId}
+          setSelectedTopicId={setSelectedTopicId}
+          setSelectedExamId={setSelectedExamId}
+        />
+        <div >
 
           <Row>
-                    <Col sm="12" lg="6">
-                        <Card>
-                            <Card.Header className="d-flex justify-content-between">
-                                <div className="header-title">
-                                    <h4 className="card-title">Basic Form</h4>
+            <Col sm="12" lg="6">
+              <Card>
+                <Card.Header className="d-flex justify-content-between">
+                  <div className="header-title">
+                    <h4 className="card-title">Basic Form</h4>
+                  </div>
+                </Card.Header>
+                <Card.Body>
+                  <Form>
+                    <Form.Group className="form-group">
+                      <Form.Label htmlFor="preQuestionText">Pre Question Text:</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        ref={textareaRef}
+                        placeholder="Enter LaTeX code..."
+                        value={preQuestionText}
+                        onChange={handleInputChange(setPreQuestionText)}
+                        id="preQuestionText"
+                      />
+                      <div ref={preQuestionRef}></div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Question Image URL:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Image URL..."
+                        value={questionImageUrl}
+                        onChange={handleInputChange(setQuestionImageUrl)}
+                      />
+                      <div ref={questionImageRef}></div>
+                      <div>
+                        <Button
+                          variant="primary"
+                          className="uploadQuestionButton"
+                          onClick={(e) => handleButtonClick(e, 0)}
+                        >
+                          <CloudUploadIcon /> Upload Question Image
+                        </Button>
+                        <Form.Control
+                          type="file"
+                          id="fileInput0"
+                          accept="image/*"
+                          onChange={(e) => handleImageChanged(0, e)}
+                          hidden
+                        />
+                        <Popover
+                          show={popovers[0]}
+                          target={anchorEls[0]}
+                          onHide={() => handleClose(0)}
+                          placement="bottom-end"
+                        >
+                          <Popover.Header closeButton>
+                            <Popover.Title>Crop Image</Popover.Title>
+                          </Popover.Header>
+                          <Popover.Body>
+                            <Typography style={{ maxWidth: '1440px' }}>
+                              <div>
+                                <div>
+                                  <Button onClick={() => clear(0)}>Clear</Button>
+                                  {croppedImage && (
+                                    <Button onClick={() => saveImage("quesImg")}>
+                                      Upload Crop
+                                    </Button>
+                                  )}
                                 </div>
-                            </Card.Header>
-                            <Card.Body>
-                            <Form>
-                                    <Form.Group className="form-group">
-                                        <Form.Label htmlFor="email">Email address:</Form.Label>
-                                        <Form.Control type="email"  id="email1"/>
-                                    </Form.Group>
-                                    <Form.Group className="form-group">
-                                        <Form.Label htmlFor="pwd">Password:</Form.Label>
-                                        <Form.Control type="password"  id="pwd"/>
-                                    </Form.Group>
-                                    <div className="checkbox mb-3">
-                                        <Form.Check className="form-check ">
-                                            <Form.Check.Input  type="checkbox" defaultValue="" id="flexCheckDefault3"/>
-                                            <Form.Check.Label  htmlFor="flexCheckDefault3">
-                                                Remember me
-                                            </Form.Check.Label>
-                                        </Form.Check>
-                                    </div>
-                                    <Button type="button" variant="btn btn-primary">Submit</Button>{' '}
-                                    <Button type="button" variant="btn btn-danger">cancel</Button>
-                                </Form>
-                            </Card.Body>
-                        </Card>
-                        </Col>
-                        </Row>
-            
+                                <div>
+                                  {image && (
+                                    <ReactCrop
+                                      crop={crop}
+                                      onChange={setCrop}
+                                      onComplete={setCroppedImage}
+                                      aspect={1}
+                                    >
+                                      <img
+                                        src={image}
+                                        alt="Crop me"
+                                        className="cropImage"
+                                        onLoad={handleOnLoad}
+                                      />
+                                    </ReactCrop>
+                                  )}
+                                </div>
+                                <div>
+                                  {croppedImage && canvasRef && (
+                                    <>
+                                      <div>Cropped Image</div>
+                                      <canvas
+                                        className="cropImage"
+                                        ref={canvasRef}
+                                        style={{ height: '30%', width: '30%' }}
+                                      ></canvas>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            </Typography>
+                          </Popover.Body>
+                        </Popover>
+                      </div>
+                      <div>
+                        {questionImageUrl && (
+                          <img
+                            className="cropImage"
+                            src={getImageUrl(questionImageUrl)}
+                            alt="QuestionImage"
+                            style={{ height: '30%', width: '30%' }}
+                          />
+                        )}
+                      </div>
+                    </Form.Group>
+                    <Form.Group className="form-group">
+                      <Form.Label>Post Question Text:</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        ref={textareaRef1}
+                        placeholder="Enter LaTeX code..."
+                        value={postQuestionText}
+                        onChange={handleInputChange(setPostQuestionText)}
+                      />
+                      <div ref={postQuestionRef}></div>
+                    </Form.Group>
+
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Option Has</Form.Label>
+                      <div className="radioFlex">
+                        <Form.Check type="radio" id="textOption">
+                          <Form.Check.Input
+                            type="radio"
+                            name="switchOptions"
+                            value="text"
+                            checked={switchOptions === 'text'}
+                            onChange={handleOptionChange}
+                            className="uploadRadioButtons"
+                            style={{ width: '20px', height: '20px' }} // Increase radio button size
+                          />
+                          <Form.Check.Label style={{ fontSize: '18px' }}>Text</Form.Check.Label> {/* Increase label font size */}
+                        </Form.Check>
+                        <Form.Check type="radio" id="imageOption">
+                          <Form.Check.Input
+                            type="radio"
+                            name="switchOptions"
+                            value="image"
+                            checked={switchOptions === 'image'}
+                            onChange={handleOptionChange}
+                            className="uploadRadioButtons"
+                            style={{ width: '20px', height: '20px' }} // Increase radio button size
+                          />
+                          <Form.Check.Label style={{ fontSize: '18px' }}>Image</Form.Check.Label> {/* Increase label font size */}
+                        </Form.Check>
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Correct Option:</Form.Label>
+                      <Form.Control
+                        as="select"
+                        id="correctOptionSelect"
+                        value={correctOption}
+                        onChange={(e) => setCorrectOption(e.target.value)}
+                        required
+                      >
+                        <option value="">Select correct option</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                      </Form.Control>
+                      <div ref={correctOptionRef}></div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Pre Explanation Text:</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        ref={textareaRef2}
+                        placeholder="Enter LaTeX code..."
+                        value={preExplanationText}
+                        onChange={handleInputChange(setPreExplanationText)}
+                      />
+                      <div ref={explanationImageRef}></div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Explanation Image URL:</Form.Label>
+                      <Form.Control
+                        type="text"
+                        placeholder="Enter Image URL..."
+                        value={explanationImageUrl}
+                        onChange={handleInputChange(setExplanationImageUrl)}
+                      />
+                      <div>
+                        <Button
+                          className="uploadQuestionButton"
+                          variant="primary"
+                          onClick={(e) => handleButtonClick(e, 5)}
+                        >
+                          <CloudUploadIcon /> Upload Explanation Image
+                        </Button>
+                        <Form.Control
+                          type="file"
+                          id="fileInput5"
+                          accept="image/*"
+                          onChange={(e) => handleImageChanged(5, e)}
+                          hidden
+                        />
+                        <Popover
+                          show={popovers[5]}
+                          target={anchorEls[5]}
+                          onHide={() => handleClose(5)}
+                          placement="bottom-end"
+                        >
+                          <Popover.Header closeButton>
+                            <Popover.Title>Crop Image</Popover.Title>
+                          </Popover.Header>
+                          <Popover.Body>
+                            <Typography style={{ maxWidth: '1440px' }}>
+                              <div>
+                                <div>
+                                  <Button onClick={() => clear(5)}>Clear</Button>
+                                  {croppedImage && (
+                                    <Button onClick={() => saveImage("expImg")}>
+                                      Upload Crop
+                                    </Button>
+                                  )}
+                                </div>
+                                <div>
+                                  {image && (
+                                    <ReactCrop
+                                      crop={crop}
+                                      onChange={setCrop}
+                                      onComplete={setCroppedImage}
+                                      aspect={1}
+                                    >
+                                      <img
+                                        src={image}
+                                        className="cropImage"
+                                        alt="Crop me"
+                                        onLoad={handleOnLoad}
+                                      />
+                                    </ReactCrop>
+                                  )}
+                                </div>
+                                <div>
+                                  {croppedImage && canvasRef && (
+                                    <>
+                                      <div>Cropped Image</div>
+                                      <canvas
+                                        className="cropImage"
+                                        ref={canvasRef}
+                                        style={{ height: '30%', width: '30%' }}
+                                      ></canvas>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            </Typography>
+                          </Popover.Body>
+                        </Popover>
+                      </div>
+                      <div>
+                        {explanationImageUrl && (
+                          <img
+                            className="cropImage"
+                            src={getImageUrl(explanationImageUrl)}
+                            alt="ExplanationImage"
+                            style={{ height: '30%', width: '30%' }}
+                          />
+                        )}
+                      </div>
+                    </Form.Group>
+
+                    <Form.Group className="form-group">
+                      <Form.Label>Post Explanation Text:</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        ref={textareaRef3}
+                        placeholder="Enter LaTeX code..."
+                        value={postExplanationText}
+                        onChange={handleInputChange(setPostExplanationText)}
+                      />
+                      <div ref={explanationImageRef}></div>
+                    </Form.Group>
+
+                    <div>
+                      <Button variant="primary" className="submitButton" onClick={handleSubmit}>
+                        Submit <ArrowUpwardIcon fontSize="small" />
+                      </Button>
+                    </div>
+
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
 
 
 
-            <div className='selectFilterContainer' >
+
+          {/* <div className='selectFilterContainer' >
+              
               <h5 className='selectHeading'>Pre Question Text:</h5>
               <textarea
                 ref={textareaRef}
@@ -686,9 +951,9 @@ const UploadQuestions = () => {
                 onChange={handleInputChange(setPreQuestionText)}
               />
               <div ref={preQuestionRef} ></div>
-            </div>
+            </div> */}
 
-            <div className='selectFilterContainer' >
+          {/* <div className='selectFilterContainer' >
               <h5 className='selectHeading'>Question Image URL:</h5>
               <input
                 type="text"
@@ -797,9 +1062,13 @@ const UploadQuestions = () => {
                 onChange={handleInputChange(setPostQuestionText)}
               />
               <div ref={postQuestionRef}></div>
-            </div>
-          </div>
-          <div className='selectFilterContainer'  >
+            </div> */}
+        </div>
+
+
+
+
+        {/* <div className='selectFilterContainer'  >
             <h5  className='selectHeading'>Option Has</h5>
             <div className='radioFlex' >
               <div>
@@ -811,12 +1080,12 @@ const UploadQuestions = () => {
                   className='uploadRadioButtons'
                   checked={switchOptions === "text"}
                   onChange={handleOptionChange}
-                 // Increase radio button size
+                
                 />
                 <span>
                   Text
                 </span>
-                {/* Increase label font size */}
+               
               </div>
               <div >
                 <input
@@ -827,20 +1096,21 @@ const UploadQuestions = () => {
                   className='uploadRadioButtons'
                   checked={switchOptions === "image"}
                   onChange={handleOptionChange}
-                  // Increase radio button size
+                  
                 />
                 <span>
                   Image
                 </span>{" "}
-                {/* Increase label font size */}
+                
               </div>
             </div>
-          </div>
-          <div className='selectFilterContainer' >
+          </div> */}
+
+        <div className='selectFilterContainer' >
           <div >
             {switchOptions === "text" ? (
               <div >
-                <h5  className='selectHeading'>Option 1 Text:</h5>
+                <h5 className='selectHeading'>Option 1 Text:</h5>
                 <textarea
                   placeholder="Enter LaTeX code..."
                   value={option1Text}
@@ -860,12 +1130,12 @@ const UploadQuestions = () => {
                 {/* <div ref={option1ImageRef}></div> */}
                 <div>
                   <Button
-                  className='uploadQuestionButton'
+                    className='uploadQuestionButton'
                     variant="contained"
                     onClick={(e) => handleButtonClick(e, 1)}
                   // onClick={(e) => { const newPopovers = [...popovers]; newPopovers[1] = true; setPopovers(newPopovers); document.getElementById('fileInput1').click(); }}
                   >
-                  <CloudUploadIcon/> &nbsp;  Upload Option 1 Image
+                    <CloudUploadIcon /> &nbsp;  Upload Option 1 Image
                   </Button>
                   <input
                     type="file"
@@ -892,13 +1162,13 @@ const UploadQuestions = () => {
                         <div>
                           <Button onClick={() => clear(1)}>Clear</Button>
                           {croppedImage && (
-                            <Button  onClick={() => saveImage("option1")}>
+                            <Button onClick={() => saveImage("option1")}>
                               Upload Crop
                             </Button>
                           )}
                         </div>
                         <div
-                          
+
                         >
                           <div >
                             {image && (
@@ -909,28 +1179,28 @@ const UploadQuestions = () => {
                                 // minWidth={100}
                                 // minHeight={100}
                                 grid={[10, 10]}
-                               
+
                               >
                                 <img
                                   src={image}
-                                  className='cropImage' 
+                                  className='cropImage'
                                   alt="Crop me"
                                   onLoad={handleOnLoad}
-                                  
+
                                 />
                               </ReactCrop>
                             )}
                           </div>
                           <div
-                            
+
                           >
                             {croppedImage && (
                               <>
                                 Cropped Image
                                 <canvas
-                                 className='cropImage'
+                                  className='cropImage'
                                   ref={canvasRef}
-                                  style={{ height: '30%', width: '30%'}}
+                                  style={{ height: '30%', width: '30%' }}
                                 ></canvas>
                               </>
                             )}
@@ -942,7 +1212,7 @@ const UploadQuestions = () => {
                 </div>
                 <div>
                   {option1ImageUrl && (
-                    <img className='cropImage'  src={getImageUrl(option1ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%'}}/>
+                    <img className='cropImage' src={getImageUrl(option1ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%' }} />
                   )}
                 </div>
               </div>
@@ -972,12 +1242,12 @@ const UploadQuestions = () => {
                 {/* <div ref={option2ImageRef}></div> */}
                 <div>
                   <Button
-                  className='uploadQuestionButton'
+                    className='uploadQuestionButton'
                     variant="contained"
                     onClick={(e) => handleButtonClick(e, 2)}
                   // onClick={(e) => { const newPopovers = [...popovers]; newPopovers[2] = true; setPopovers(newPopovers); document.getElementById('fileInput2').click(); }}
                   >
-                    <CloudUploadIcon/> &nbsp;  Upload Option 2 Image
+                    <CloudUploadIcon /> &nbsp;  Upload Option 2 Image
                   </Button>
                   <input
                     type="file"
@@ -1002,15 +1272,15 @@ const UploadQuestions = () => {
                     <Typography sx={{ p: 2, maxWidth: 1440 }}>
                       <div>
                         <div>
-                          <Button  onClick={() => clear(2)}>Clear</Button>
+                          <Button onClick={() => clear(2)}>Clear</Button>
                           {croppedImage && (
-                            <Button  onClick={() => saveImage("option2")}>
+                            <Button onClick={() => saveImage("option2")}>
                               Upload Crop
                             </Button>
                           )}
                         </div>
                         <div
-                          
+
                         >
                           <div >
                             {image && (
@@ -1021,28 +1291,28 @@ const UploadQuestions = () => {
                                 // minWidth={100}
                                 // minHeight={100}
                                 grid={[10, 10]}
-                                
+
                               >
                                 <img
-                                className='cropImage' 
+                                  className='cropImage'
                                   src={image}
                                   alt="Crop me"
                                   onLoad={handleOnLoad}
-                                  
+
                                 />
                               </ReactCrop>
                             )}
                           </div>
                           <div
-                            
+
                           >
                             {croppedImage && (
                               <>
                                 Cropped Image
                                 <canvas
-                                 className='cropImage'
+                                  className='cropImage'
                                   ref={canvasRef}
-                                  style={{ height: '30%', width: '30%'}}
+                                  style={{ height: '30%', width: '30%' }}
                                 ></canvas>
                               </>
                             )}
@@ -1054,7 +1324,7 @@ const UploadQuestions = () => {
                 </div>
                 <div>
                   {option2ImageUrl && (
-                    <img className='cropImage'  src={getImageUrl(option2ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%'}}/>
+                    <img className='cropImage' src={getImageUrl(option2ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%' }} />
                   )}
                 </div>
               </div>
@@ -1083,12 +1353,12 @@ const UploadQuestions = () => {
                 {/* <div ref={option3ImageRef}></div> */}
                 <div>
                   <Button
-                  className='uploadQuestionButton'
+                    className='uploadQuestionButton'
                     variant="contained"
                     onClick={(e) => handleButtonClick(e, 3)}
                   // onClick={(e) => { const newPopovers = [...popovers]; newPopovers[3] = true; setPopovers(newPopovers); document.getElementById('fileInput3').click(); }}
                   >
-                    <CloudUploadIcon/> &nbsp;  Upload Option 3 Image
+                    <CloudUploadIcon /> &nbsp;  Upload Option 3 Image
                   </Button>
                   <input
                     type="file"
@@ -1113,7 +1383,7 @@ const UploadQuestions = () => {
                     <Typography sx={{ p: 2, maxWidth: 1440 }}>
                       <div>
                         <div>
-                          <Button  onClick={() => clear(3)}>Clear</Button>
+                          <Button onClick={() => clear(3)}>Clear</Button>
                           {croppedImage && (
                             <Button onClick={() => saveImage("option3")}>
                               Upload Crop
@@ -1121,7 +1391,7 @@ const UploadQuestions = () => {
                           )}
                         </div>
                         <div
-                         
+
                         >
                           <div>
                             {image && (
@@ -1132,28 +1402,28 @@ const UploadQuestions = () => {
                                 // minWidth={100}
                                 // minHeight={100}
                                 grid={[10, 10]}
-                               
+
                               >
                                 <img
-                                className='cropImage' 
+                                  className='cropImage'
                                   src={image}
                                   alt="Crop me"
                                   onLoad={handleOnLoad}
-                                  
+
                                 />
                               </ReactCrop>
                             )}
                           </div>
                           <div
-                            
+
                           >
                             {croppedImage && (
                               <>
                                 Cropped Image
                                 <canvas
-                                 className='cropImage'
+                                  className='cropImage'
                                   ref={canvasRef}
-                                  style={{ height: '30%', width: '30%'}}
+                                  style={{ height: '30%', width: '30%' }}
                                 ></canvas>
                               </>
                             )}
@@ -1165,7 +1435,7 @@ const UploadQuestions = () => {
                 </div>
                 <div>
                   {option3ImageUrl && (
-                    <img className='cropImage'  src={getImageUrl(option3ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%'}}/>
+                    <img className='cropImage' src={getImageUrl(option3ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%' }} />
                   )}
                 </div>
               </div>
@@ -1194,12 +1464,12 @@ const UploadQuestions = () => {
                 {/* <div ref={option4ImageRef}></div> */}
                 <div>
                   <Button
-                  className='uploadQuestionButton'
+                    className='uploadQuestionButton'
                     variant="contained"
                     onClick={(e) => handleButtonClick(e, 4)}
                   // onClick={(e) => { const newPopovers = [...popovers]; newPopovers[4] = true; setPopovers(newPopovers); document.getElementById('fileInput4').click(); }}
                   >
-                   <CloudUploadIcon/> &nbsp;   Upload Option 4 Image
+                    <CloudUploadIcon /> &nbsp;   Upload Option 4 Image
                   </Button>
                   <input
                     type="file"
@@ -1224,7 +1494,7 @@ const UploadQuestions = () => {
                     <Typography sx={{ p: 2, maxWidth: 1440 }}>
                       <div>
                         <div>
-                          <Button  onClick={() => clear(4)}>Clear</Button>
+                          <Button onClick={() => clear(4)}>Clear</Button>
                           {croppedImage && (
                             <Button onClick={() => saveImage("option4")}>
                               Upload Crop
@@ -1232,7 +1502,7 @@ const UploadQuestions = () => {
                           )}
                         </div>
                         <div
-                        
+
                         >
                           <div >
                             {image && (
@@ -1243,28 +1513,28 @@ const UploadQuestions = () => {
                                 // minWidth={100}
                                 // minHeight={100}
                                 grid={[10, 10]}
-                                
+
                               >
                                 <img
-                                className='cropImage' 
+                                  className='cropImage'
                                   src={image}
                                   alt="Crop me"
                                   onLoad={handleOnLoad}
-                                  
+
                                 />
                               </ReactCrop>
                             )}
                           </div>
                           <div
-                          
+
                           >
                             {croppedImage && (
                               <>
                                 Cropped Image
                                 <canvas
-                                 className='cropImage'
+                                  className='cropImage'
                                   ref={canvasRef}
-                                  style={{ height: '30%', width: '30%'}}
+                                  style={{ height: '30%', width: '30%' }}
                                 ></canvas>
                               </>
                             )}
@@ -1276,38 +1546,41 @@ const UploadQuestions = () => {
                 </div>
                 <div>
                   {option4ImageUrl && (
-                    <img className='cropImage'  src={getImageUrl(option4ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%'}}/>
+                    <img className='cropImage' src={getImageUrl(option4ImageUrl)} alt="OptionImage" style={{ height: '30%', width: '30%' }} />
                   )}
                 </div>
               </div>
             )}
           </div>
-          </div>
-          <div >
-            <div className='selectFilterContainer'>
-              <h5 className='selectHeading'>Correct Option:</h5>
-              <div >
-                <h6 className='selectHeading' >Correct Option:</h6>
-                <select
-                  id="correctOptionSelect"
-                  value={correctOption}
-                  onChange={(e) => setCorrectOption(e.target.value)}
-                  required
-                >
-                  <option value="">Select correct option</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
-                </select>
-              </div>
-              <div>
-                <pre ref={correctOptionRef}></pre>
-              </div>
+        </div>
+
+        <div >
+          <div className='selectFilterContainer'>
+            <h5 className='selectHeading'>Correct Option:</h5>
+            <div >
+              <h6 className='selectHeading' >Correct Option:</h6>
+              <select
+                id="correctOptionSelect"
+                value={correctOption}
+                onChange={(e) => setCorrectOption(e.target.value)}
+                required
+              >
+                <option value="">Select correct option</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+              </select>
+            </div>
+            <div>
+              <pre ref={correctOptionRef}></pre>
             </div>
           </div>
-          <div className='selectFilterContainer'>
-            <div className='mb'>
+        </div>
+
+
+        {/* <div className='selectFilterContainer'> */}
+        {/* <div className='mb'>
               <h5 className='selectHeading'>Pre Explanation Text:</h5>
               <textarea
                 ref={textareaRef2}
@@ -1316,9 +1589,9 @@ const UploadQuestions = () => {
                 onChange={handleInputChange(setPreExplanationText)}
               />
               <div ref={preExplanationTextRef}></div>
-            </div>
+            </div> */}
 
-            <div className='mb'>
+        {/* <div className='mb'>
 
   
               <h5 className='selectHeading'>Explanation Image URL:</h5>
@@ -1336,11 +1609,11 @@ const UploadQuestions = () => {
                   variant="contained"
                   onClick={
                     (e) => handleButtonClick(e, 5)
-                    // (e) => {
-                    // const newPopovers = [...popovers];
-                    // newPopovers[5] = true;
-                    // setPopovers(newPopovers);
-                    // document.getElementById('fileInput5').click(); }
+                    (e) => {
+                    const newPopovers = [...popovers];
+                    newPopovers[5] = true;
+                    setPopovers(newPopovers);
+                    document.getElementById('fileInput5').click(); }
                   }
                 >
                   <CloudUploadIcon/> &nbsp;  Upload Explanation Image
@@ -1429,6 +1702,7 @@ const UploadQuestions = () => {
                 )}
               </div>
             </div>
+
             <div >
               <h5 className='selectHeading'>Post Explanation Text:</h5>
               <textarea
@@ -1438,8 +1712,10 @@ const UploadQuestions = () => {
                 onChange={handleInputChange(setPostExplanationText)}
               />
               <div ref={postExplanationTextRef}></div>
-            </div>
-          </div>
+            </div> */}
+
+
+        {/* </div> */}
 
         {/* <div className="row p-4 rounded mb-5">
           <div className="col-md-6">
@@ -1483,11 +1759,20 @@ const UploadQuestions = () => {
             </select>
           </div>
         </div> */}
-          <div >
+
+
+
+
+        {/* <div >
             <button className='submitButton' onClick={handleSubmit}>
-              Submit <ArrowUpwardIcon fontSize='small'/>
+              Submit <ArrowUpwardIcon fontSize='small' />
             </button>
-          </div>
+          </div> */}
+
+
+
+
+
       </div>
       <ToastContainer
         position="top-right"
